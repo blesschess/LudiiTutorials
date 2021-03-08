@@ -1,0 +1,105 @@
+(game "Lucky Star"
+    (players 1)  
+    (equipment { 
+        (board 
+            (graph 
+                vertices:{
+                {89 0} {397 212}
+                {210 328} {685 32}
+                {551 308} 
+                {0 468} {274 468}
+                {369 671} {482 468}
+                {710 434}
+                }
+                edges:{
+                {0 1} {0 2} {1 2}
+                {3 1} {3 4} {1 4}
+                {5 6} {5 2} {6 2}
+                {7 8} {7 6} {8 6}
+                {9 8} {9 4} {4 8}
+                }
+            )
+            use:Vertex
+        )
+        (hand Each) 
+        (piece "Ball" P1
+            (move Hop 
+                (between 
+                    if:(is Friend (who at:(between)))
+                    (apply (remove (between)))
+                )
+                (to if:(is Empty (to)))
+            )
+        ) 
+        }
+    )  
+    (rules 
+        (start 
+            (place "Ball" (handSite P1) count:9)
+        )
+        
+        (play 
+            (if (is Even (count Moves))
+                (move 
+                    (from (handSite Mover)) 
+                    (to (sites Empty))
+                    (then (moveAgain))
+                ) 
+                (forEach Piece
+                    (if (= (from) (last To))
+                        (move Hop 
+                            (between 
+                                if:(or (is Friend (who at:(between))) (is Empty (between)))
+                            )
+                            (to if:(is Empty (to)))
+                        )
+                    )
+                )
+            )
+        )
+        (end { 
+            (if (and (is Even (count Moves)) ("HandEmpty" Mover)) (result Mover Win))
+            (if (no Moves Next) (result Mover Loss))
+        })
+    )		
+)
+
+//------------------------------------------------------------------------------
+
+(metadata 
+    
+    (info
+        {
+        (description "Nao Gutiya Baithaneka is a solitaire game played in the Bihar region of India. The player attempts to place nine pieces on a star-shaped board with a distinct pattern of moves.")
+        (rules "The board is a five-pointed star. The player has nine pieces. The player attempts to place all the pieces on the board. The player choses a point, then moves the piece two spaces in a straight line. The piece may move through a spot occupied by another piece, but must land on an empty space. The player wins by successfully placing all nine pieces.
+        ")
+        (source "Das Gupta 1935: 415-416.")
+        (version "1.1.15")
+        (classification "puzzle/planning")
+        (credit "Eric Piette")
+        (origin  "This game was played in India, around 1935CE.")
+        }
+    )
+    
+    (graphics {
+    
+        (board Background image:"luckstar-01.svg" fillColour:(colour 185 180 184) edgeColour:(colour 185 180 184) scale:1.66)
+        (board Background image:"luckstar-02.svg" fillColour:(colour 24 15 18) edgeColour:(colour 24 15 18) scale:1.66)
+        (board Background image:"luckstar-03.svg" fillColour:(colour 24 15 18) edgeColour:(colour 24 15 18) scale:1.66)
+        (board Background image:"luckstar-04.svg" fillColour:(colour 152 62 97) edgeColour:(colour 152 62 97) scale:1.66)
+        (board Background image:"luckstar-05.svg" fillColour:(colour 174 145 53) edgeColour:(colour 174 145 53) scale:1.66)
+        (board Background image:"luckstar-06.svg" fillColour:(colour 149 129 58) edgeColour:(colour 149 129 58) scale:1.66)
+        (board Background image:"luckstar-07.svg" fillColour:(colour 171 109 70) edgeColour:(colour 171 109 70) scale:1.66)
+        (board Background image:"luckstar-08.svg" fillColour:(colour 171 65 69) edgeColour:(colour 171 65 69) scale:1.66)
+        (board Background image:"luckstar-09.svg" fillColour:(colour 148 19 73) edgeColour:(colour 148 19 73) scale:1.66)
+        (board Background image:"luckstar-10.svg" fillColour:(colour 82 35 55) edgeColour:(colour 82 35 55) scale:1.66)
+        (board Background image:"luckstar-11.svg" fillColour:(colour 160 78 67) edgeColour:(colour 160 78 67) scale:1.66)
+        (board Background image:"luckstar-12.svg" fillColour:(colour 157 105 57) edgeColour:(colour 157 105 57) scale:1.66)
+        (board Background image:"luckstar-13.svg" fillColour:(colour 64 101 94) edgeColour:(colour 64 101 94) scale:1.66)
+        (board Background image:"luckstar-14.svg" fillColour:(colour 59 35 48) edgeColour:(colour 59 35 48) scale:1.66)
+        (board Background image:"luckstar-15.svg" fillColour:(colour 255 255 255) edgeColour:(colour 255 255 255) scale:1.66)
+        (board Placement scale:1 offsetX:0 offsetY:0)
+        (show Edges Diagonal Hidden)
+    })
+    
+)
